@@ -7,6 +7,14 @@
  */
 
 import React from 'react';
+import {NavigationContainer, StackActions} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Splash from './screens/Splash';
+import ToDo from './screens/ToDo';
+import Done from './screens/Done';
+
 import {
   SafeAreaView,
   ScrollView,
@@ -17,94 +25,83 @@ import {
   View,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const stack = createNativeStackNavigator();
+const bottomNav = createBottomTabNavigator();
 
-const Section = ({children, title}) => {
-  const isDarkMode = useColorScheme() === 'dark';
+function Home() {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
+    <bottomNav.Navigator
+      screenOptions={
+        ({route}) => ({
+        tabBarIcon: ({focused, size, color}) => {
+          let iconName;
+          if (route.name === 'To-Do') {
+            iconName = 'tasks';
+            size = focused ? 25 : 20;
+            color= 'black';
+          } else if (route.name === 'Done') {
+            iconName = 'clipboard-check';
+            size = focused ? 25 : 20;
+            color='black';
+          }
+          return (<FontAwesome5 name={iconName} size={size} color={color} />);
+        },
+      })}>
+      <bottomNav.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="To-Do"
+        component={ToDo}
+      />
+      <bottomNav.Screen
+        options={{
+          headerShown: false,
+        }}
+        name="Done"
+        component={Done}
+      />
+    </bottomNav.Navigator>
   );
-};
+}
 
-const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
+function App() {
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <stack.Navigator
+        initialRouteName="Splash"
+        screenOptions={{
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: '#0080ff',
+          },
+          headerTintColor: '#ffffff',
+          headerTitleStyle: {
+            fontSize: 25,
+            fontWeight: 'bold',
+          },
+        }}>
+        <stack.Screen
+          name="Splash"
+          component={Splash}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <stack.Screen options={{headerShown: false}} name="Home" component={Home} />
+      </stack.Navigator>
+    </NavigationContainer>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  body: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
+  text: {
+    color: 'black',
   },
 });
 

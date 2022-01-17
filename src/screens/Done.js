@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Text, Image} from 'react-native';
 
-export default function Done(navigation) {
+export default function Done({navigation}) {
   return (
     <View style={styles.body}>
       <Text style={styles.text}>Done</Text>
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#0080ff',
+    backgroundColor: '#ffffff',
   },
   logo: {
     width: 150,
@@ -23,6 +23,6 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 40,
-    color: '#ffffff',
+    color: 'black',
   },
 });

@@ -11,14 +11,8 @@ export default function Splash({navigation}) {
 
   return (
     <View style={styles.body}>
-      <Image
-        style={styles.logo}
-        source={{
-          uri: 'https://clickup.com/blog/wp-content/uploads/2019/01/to-do-list-apps.png',
-        }}
-      />
-      <Text style={styles.text}>Mash To-Do List</Text>
-      <FontAwesome5 name={'tasks'} size={80} color={'black'} />
+      <Image style={styles.logo} source={require('../pngegg.png')} />
+      <Text style={styles.text}>To-Do List</Text>
     </View>
   );
 }
@@ -28,7 +22,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#DD62FF',
+    backgroundColor: '#0080ff',
   },
   logo: {
     width: 150,

@@ -14,6 +14,10 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Splash from './screens/Splash';
 import ToDo from './screens/ToDo';
 import Done from './screens/Done';
+import Task from './screens/Task';
+
+import { Provider } from 'react-redux';
+import { Store } from './redux/store';
 
 import {
   SafeAreaView,
@@ -31,20 +35,19 @@ const bottomNav = createBottomTabNavigator();
 function Home() {
   return (
     <bottomNav.Navigator
-      screenOptions={
-        ({route}) => ({
+      screenOptions={({route}) => ({
         tabBarIcon: ({focused, size, color}) => {
           let iconName;
           if (route.name === 'To-Do') {
             iconName = 'tasks';
             size = focused ? 25 : 20;
-            color= 'black';
+            color = focused? 'blue':'black';
           } else if (route.name === 'Done') {
             iconName = 'clipboard-check';
             size = focused ? 25 : 20;
-            color='black';
+            color = focused? 'blue':'black';
           }
-          return (<FontAwesome5 name={iconName} size={size} color={color} />);
+          return <FontAwesome5 name={iconName} size={size} color={color} />;
         },
       })}>
       <bottomNav.Screen
@@ -67,6 +70,7 @@ function Home() {
 
 function App() {
   return (
+    <Provider store={Store}>
     <NavigationContainer>
       <stack.Navigator
         initialRouteName="Splash"
@@ -88,9 +92,19 @@ function App() {
             headerShown: false,
           }}
         />
-        <stack.Screen options={{headerShown: false}} name="Home" component={Home} />
+        <stack.Screen
+          options={{headerShown: false}}
+          name="Home"
+          component={Home}
+        />
+         <stack.Screen
+          options={{headerShown: false}}
+          name="Task"
+          component={Task}
+        />
       </stack.Navigator>
     </NavigationContainer>
+    </Provider>
   );
 }
 
